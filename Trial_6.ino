@@ -52,12 +52,6 @@ int dal_co=0;
 int rice_co=0;
 
 void setup() {
-  menu();
-
-}
-
-void menu(){
-
   int rectWidth = 145;
   int rectHeight = 50;  // Menu Items
   int rectX = 10;
@@ -105,14 +99,6 @@ void menu(){
   tft.setTextColor(WHITE);
   tft.setCursor(90,199);
   tft.print("Review Order");
-}
-
-void review(){
-  tft.fillRect(165, 70, 70, 50, BLUE);
-  tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.setCursor(178,86);
-  tft.print("H2O Rs.15");
 
 }
 
@@ -123,33 +109,55 @@ void loop() {
     
    p.x = map(p.x, TS_MAXX, TS_MINX, 0, 320);
    p.y = map(p.y, TS_MAXY, TS_MINY, 0, 480);
-       
-   if(p.x>10 && p.x<155 && p.y>50 && p.y<120 && buttonEnabled){
+
+   if(p.x>10 && p.x<155 && p.y>70 && p.y<120 && buttonEnabled){
+
+    buttonEnabled = false;
     
-    roti_co++;
+    pinMode(XM, OUTPUT);
+    pinMode(YP, OUTPUT);
+  
+    tft.fillScreen(WHITE);
+    tft.fillRect(0,0,319,240,RED);
+
+    tft.setTextSize(2);
+    tft.setTextColor(BLACK);
+    tft.setCursor(130,120);
+    tft.print("You odered roti");
    }
 
-   else if(p.x>165 && p.x<310 && p.y>50 && p.y<120 && buttonEnabled){
+  /*else if(p.x>165 && p.x<310 && p.y>50 && p.y<120 && buttonEnabled){
     
     H2O_co++;
+    tft.setTextColor(BLACK);
+    tft.setCursor(130,120);
+    tft.print("You odered H2O");
    }  
   
   else if(p.x>10 && p.x<155 && p.y>130 && p.y<180 && buttonEnabled){
     
     dal_co++;
+    tft.setTextColor(BLACK);
+    tft.setCursor(130,120);
+    tft.print("You odered Dal");
   }
 
   else if(p.x>10 && p.x<310 && p.y>130 && p.y<180 && buttonEnabled){
     
     rice_co++;
+    tft.setTextColor(BLACK);
+    tft.setCursor(130,120);
+    tft.print("You odered rice");
   }
 
   else if(p.x>10 && p.x<310 && p.y>175 && p.y<225 && buttonEnabled){
     
     review();
-    delay(70000);
+      buttonEnabled = false; // Disable buttons to prevent multiple calls during the delay
+      delay(7000);  // Reduced delay for testing purposes, adjust as needed
+      buttonEnabled = true;
 
-  }
+  }*/
  }
 
 }
