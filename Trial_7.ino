@@ -8,12 +8,14 @@
 #define LCD_RD A0 
 #define LCD_RESET A4 
 
-//In this file the successful calling of the review function is done. Still the values of dishes is in progress.
+/*In this file the successful calling of the review function is done. And successful taking of multiple dishes by clicking n number of times*
+Still the values of dishes are printing absurd values.*/
 
 #define TS_MINX 122
 #define TS_MINY 111
 #define TS_MAXX 942
 #define TS_MAXY 890
+
 
 #define YP A3
 #define XM A2
@@ -31,13 +33,9 @@ Adafruit_TFTLCD tft(LCD_CS, LCD_CD, LCD_WR, LCD_RD, LCD_RESET);
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 364);
 
 boolean buttonEnabled = true;
-
-int guj_thali=0;
-int jain_thali=0;
-int punj_thali=0;
+boolean dishOrdered = false;
 
 void setup() {
-  
   menu();
   
 }
@@ -87,7 +85,7 @@ void menu(){
   tft.print("REVIEW MY ORDER");
 }
 
-void review(){
+void review(int guj_co,int jain_co,int punj_co){
 
   int rectWidth = 300;
   int rectHeight = 30;  // Menu Items
@@ -111,7 +109,8 @@ void review(){
   tft.setTextSize(2);
   tft.setTextColor(WHITE);
   tft.setCursor(21,77);
-  tft.print("GUJARATI THALI:&guj_thali");
+  tft.print("GUJARATI THALI-");
+  tft.print(guj_co);
 
   tft.fillRect(10, 110, rectWidth, rectHeight, BLUE);
   tft.setTextSize(2);
@@ -129,70 +128,53 @@ void review(){
 
 void loop() {
   TSPoint p = ts.getPoint();
+
+int guj_thali=0;
+int jain_thali=0;
+int punj_thali=0;
   
-  
+
   if (p.z > ts.pressureThreshhold) {
-    
-   p.x = map(p.x, TS_MAXX, TS_MINX, 0, 320);
-   p.y = map(p.y, TS_MAXY, TS_MINY, 0, 240);
+    p.x = map(p.x, TS_MAXX, TS_MINX, 0, 320);
+    p.y = map(p.y, TS_MAXY, TS_MINY, 0, 240);
 
-
-
-   if(p.x>200 && p.x<230 && p.y>10 && p.y<310 && buttonEnabled){
-
-    buttonEnabled = false;
-    
-    pinMode(XM, OUTPUT);
-    pinMode(YP, OUTPUT);
-    
-    guj_thali++;
-    tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.setCursor(50,150);
-  tft.print("guj called");
-    
+    if (p.x > 200 && p.x < 230 && p.y > 10 && p.y < 310 && buttonEnabled) {
+      buttonEnabled = true;
+      pinMode(XM, OUTPUT);
+      pinMode(YP, OUTPUT);
+      guj_thali++;
+      tft.setTextSize(2);
+      tft.setTextColor(BLACK);
+      tft.setCursor(50, 150);
+      tft.print("Gujarati thali");
+      tft.print(guj_thali);
+      dishOrdered = true;
+    } else if (p.x > 160 && p.x < 190 && p.y > 10 && p.y < 310 && buttonEnabled) {
+      buttonEnabled = true;
+      pinMode(XM, OUTPUT);
+      pinMode(YP, OUTPUT);
+      jain_thali++;
+      tft.setTextSize(2);
+      tft.setTextColor(BLACK);
+      tft.setCursor(50, 150);
+      tft.print("jain called");
+      dishOrdered = true;
+    } else if (p.x > 80 && p.x < 140 && p.y > 10 && p.y < 310 && buttonEnabled) {
+      buttonEnabled = true;
+      pinMode(XM, OUTPUT);
+      pinMode(YP, OUTPUT);
+      punj_thali++;
+      tft.setTextSize(2);
+      tft.setTextColor(BLACK);
+      tft.setCursor(50, 150);
+      tft.print("Punjabi called");
+      dishOrdered = true;
+    } else if (p.x > 45 && p.x < 90 && p.y > 10 && p.y < 310 && buttonEnabled && dishOrdered) {
+      buttonEnabled = true;
+      pinMode(XM, OUTPUT);
+      pinMode(YP, OUTPUT);
+      review(guj_thali,jain_thali,punj_thali);
+      delay(5000);
     }
-
-   else if(p.x>160 && p.x<190 && p.y>10 && p.y<310 && buttonEnabled){
-
-    buttonEnabled = false;
-    
-    pinMode(XM, OUTPUT);
-    pinMode(YP, OUTPUT);
-    
-    jain_thali++;
-    tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.setCursor(50,150);
-  tft.print("jain called");
-   }
-
-   else if(p.x>80 && p.x<140 && p.y>10 && p.y<310 && buttonEnabled){
-
-    buttonEnabled = false;
-    
-    pinMode(XM, OUTPUT);
-    pinMode(YP, OUTPUT);
-
-    tft.setTextSize(2);
-  tft.setTextColor(BLACK);
-  tft.setCursor(50,150);
-  tft.print("Punjabi called");
-    
-    punj_thali++;
-   }
-
-   else if(p.x>45 && p.x<90 && p.y>10 && p.y<310 && buttonEnabled){
-
-    buttonEnabled = false;
-    
-    pinMode(XM, OUTPUT);
-    pinMode(YP, OUTPUT);
-
-    review();
-    delay(5000);
-   }
-  
   }
-
 }
