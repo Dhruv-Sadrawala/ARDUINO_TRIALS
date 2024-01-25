@@ -8,8 +8,8 @@
 #define LCD_RD A0 
 #define LCD_RESET A4 
 
-/*In this file the successful calling of the review function is done. And successful taking of multiple dishes by clicking n number of times*
-Still the values of dishes are printing absurd values.*/
+/*In this file the successful calling of the review function is done. And the function is printing the number of times a dish is called
+with quantity in a specified column.*/
 
 #define TS_MINX 122
 #define TS_MINY 111
