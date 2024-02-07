@@ -35,6 +35,9 @@ boolean dishOrdered = false;
 int guj_thali=0;
 int jain_thali=0;
 int punj_thali=0;
+int guj_price=210;
+int jain_price=200;
+int punj_price=220;
 
 void setup() {
   menu();
@@ -88,8 +91,6 @@ void menu(){
 
 void review(){
 
-  int rectWidth = 300;
-  int rectHeight = 30;  // Menu Items
   int rectX = 10;
   int rectY = 5;
 
@@ -164,6 +165,90 @@ void con_order(){
   tft.print("YOUR ORDER HAS BEEN SENT        TO THE KITCHEN");
 }
 
+void bill(){
+
+  int rectX = 10;
+  int rectY = 5;
+  int total=0;
+
+  tft.reset();
+  uint16_t identifier = tft.readID();
+  tft.begin(identifier);
+  tft.setRotation(1);
+  tft.fillScreen(WHITE);
+  tft.drawRect(0,0,319,240,WHITE);
+
+  tft.fillRect(rectX, rectY, 300, 50, RED);
+  tft.setCursor(103,10);
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  tft.print("YOUR BILL");
+
+  tft.setCursor(42,35);
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  tft.print("DISH NAME    QTY  AMT");
+
+  int yPos = 70;
+
+
+  if (guj_thali > 0) {
+    tft.setTextSize(2);
+    tft.setTextColor(BLACK);
+    tft.setCursor(21, yPos);
+    tft.print("GUJARATI THALI");
+    tft.setCursor(210, yPos);
+    tft.println(guj_thali);
+    tft.setCursor(260, yPos);
+    int guj_t=guj_price*guj_thali;
+    tft.println(guj_t);
+    total+=guj_t;
+    yPos += 25;
+  }
+
+  if (jain_thali > 0) {
+    tft.setTextSize(2);
+    tft.setTextColor(BLACK);
+    tft.setCursor(21, yPos);
+    tft.print("JAIN THALI");
+    tft.setCursor(210, yPos);
+    tft.println(jain_thali);
+    tft.setCursor(260, yPos);
+    int jain_t=jain_price*jain_thali;
+    tft.println(jain_t);
+    total+=jain_t;
+    yPos += 25;
+  }
+
+  if (punj_thali > 0) {
+    tft.setTextSize(2);
+    tft.setTextColor(BLACK);
+    tft.setCursor(21, yPos);
+    tft.print("PUNJABI THALI");
+    tft.setCursor(210, yPos);
+    tft.println(punj_thali);
+    tft.setCursor(260, yPos);
+    int punj_t=punj_price*punj_thali;
+    tft.println(punj_t);
+    total+=punj_t;
+  }
+
+  tft.fillRect(10, 150, 300, 30, BLUE);
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  tft.setCursor(21,158);
+  tft.print("TOATL AMOUNT");
+  tft.setCursor(260,158);
+  tft.print(total);
+
+  tft.fillRect(10, 182, 300, 50, DARK_ORANGE);
+  tft.setTextSize(2);
+  tft.setTextColor(WHITE);
+  tft.setCursor(25,192);
+  tft.print("UPI ID 4753XXXXXX@paytm      OR PAY ON COUNTER");
+  
+}
+
 void loop() {
   TSPoint p = ts.getPoint();
 
@@ -202,6 +287,9 @@ void loop() {
       review();
       delay(9000);
       con_order();
+      delay(5000);
+      bill();
+      delay(6000);
     }
   }
 }
