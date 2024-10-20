@@ -260,6 +260,10 @@ void loop() {
       buttonEnabled = true;
       pinMode(XM, OUTPUT);
       pinMode(YP, OUTPUT);
+      tft.fillRect(10, 70, 300, 30, BLUE);
+      delay(200);
+      tft.setCursor(21,77);
+      tft.print("GUJARATI THALI Rs.210/-");
       guj_thali++;
       delay(1000);
       dishOrdered = true;
@@ -268,6 +272,10 @@ void loop() {
       buttonEnabled = true;
       pinMode(XM, OUTPUT);
       pinMode(YP, OUTPUT);
+      tft.fillRect(10, 110, 300, 30, BLUE);
+      delay(200);
+      tft.setCursor(21,117);
+      tft.print("JAIN THALI     Rs.200/-");
       jain_thali++;
       delay(1000);
       dishOrdered = true;
@@ -276,6 +284,10 @@ void loop() {
       buttonEnabled = true;
       pinMode(XM, OUTPUT);
       pinMode(YP, OUTPUT);
+      tft.fillRect(10, 150, 300, 30, BLUE);
+      delay(200);
+      tft.setCursor(21,157);
+      tft.print("PUNJABI THALI  Rs.220/-");
       punj_thali++;
       delay(1000);
       dishOrdered = true;
